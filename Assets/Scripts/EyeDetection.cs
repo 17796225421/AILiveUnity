@@ -1,20 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 using UnityEngine.UI;
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.UnityUtils;
 using OpenCVForUnity.ObjdetectModule;
 using OpenCVForUnity.ImgprocModule;
+using System.Collections.Concurrent;
 
 public class EyeDetection : MonoBehaviour
 {
     public WebCamTexture webCamTexture;
     public CascadeClassifier eyesCascade;
-    //public RawImage rawImage;  // 把你在Unity创建的RawImage拖拽到这里
-    // 添加这两个公共字段
-    public int eyeX;
-    public int eyeY;
+    private const int ArraySize = 1000;  // 定义数组大小为常量
+    private const int WindowSize = 100;  // 滑动窗口的大小
+
+    public Vector2[] eyePositions = new Vector2[ArraySize];  // 存储眼睛位置的数组
+    public int currentIndex = 0;  // 当前的索引，需要线程安全
+
+    private Vector2[] window = new Vector2[WindowSize];  // 滑动窗口
+    private int windowIndex = 0;  // 滑动窗口的索引
+    private Vector2 windowSum = Vector2.zero;  // 滑动窗口的累积和
+    private Thread thread;
+    private ConcurrentQueue<Mat> frameQueue = new ConcurrentQueue<Mat>();
 
     void Start()
     {
@@ -29,9 +38,10 @@ public class EyeDetection : MonoBehaviour
             }
         }
         Debug.Log("前置摄像头名称: " + frontCamName);
-
-        webCamTexture = new WebCamTexture(frontCamName);
-        //rawImage.texture = webCamTexture;  // 将摄像头图像赋给RawImage
+        // 设置摄像头的分辨率
+        int width = 200;  // 你可以根据需要设置这个值
+        int height = 480;  // 你可以根据需要设置这个值
+        webCamTexture = new WebCamTexture(frontCamName, width, height);
         webCamTexture.Play();
 
         eyesCascade = new CascadeClassifier();
@@ -59,43 +69,78 @@ public class EyeDetection : MonoBehaviour
         {
             Debug.Log("级联分类器已加载");
         }
+
+        // 创建一个后台线程来执行眼睛检测和滑动窗口的计算
+        thread = new Thread(DetectEyes);
+        thread.IsBackground = true;
+        thread.Start();
+
+        // 开始执行协程
+        StartCoroutine(ProcessFrame());
     }
 
-    void Update()
+    IEnumerator ProcessFrame()
     {
-        Mat frame = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC4); // 修改这里
-        Utils.webCamTextureToMat(webCamTexture, frame);
-
-        // 旋转图像
-        Core.rotate(frame, frame, Core.ROTATE_90_COUNTERCLOCKWISE);
-
-        Mat gray = new Mat();
-        Imgproc.cvtColor(frame, gray, Imgproc.COLOR_RGBA2GRAY); // 修改这里
-
-        MatOfRect eyes = new MatOfRect();
-        eyesCascade.detectMultiScale(gray, eyes);
-
-        Debug.Log("检测到眼睛的数量: " + eyes.toArray().Length);
-
-        foreach (OpenCVForUnity.CoreModule.Rect eye in eyes.toArray())
+        while (true)
         {
-            // 在这里，你可以获取到眼睛的位置
-            Debug.Log("检测到眼睛，位置：" + eye.x + ", " + eye.y);
+            // 在主线程中捕获摄像头的图像
+            Mat frame = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC4);
+            Utils.webCamTextureToMat(webCamTexture, frame);
+            frameQueue.Enqueue(frame);  // 将图像数据添加到队列中
 
-            // 将眼睛的位置赋值给公共字段
-            eyeX = eye.x;
-            eyeY = eye.y;
-
-            //// 在眼睛的位置上绘制红框
-            //Imgproc.rectangle(frame, new Point(eye.x, eye.y), new Point(eye.x + eye.width, eye.y + eye.height), new Scalar(255, 0, 0, 255), 2);
+            // 等待1秒
+            yield return new WaitForSeconds(0.1f);
         }
+    }
 
-        //// 将带有红框的图像显示在Unity的RawImage上
-        //Texture2D texture = new Texture2D(frame.cols(), frame.rows(), TextureFormat.RGBA32, false);
-        //Utils.matToTexture2D(frame, texture);
-        //rawImage.texture = texture;
+    void DetectEyes()
+    {
+        while (true)
+        {
+            // 从队列中取出图像数据
+            if (!frameQueue.TryDequeue(out Mat frame))
+            {
+                Thread.Sleep(10);
+                continue;
+            }
 
-        frame.release();
-        gray.release();
+            // 旋转图像
+            Core.rotate(frame, frame, Core.ROTATE_90_COUNTERCLOCKWISE);
+
+            Mat gray = new Mat();
+            Imgproc.cvtColor(frame, gray, Imgproc.COLOR_RGBA2GRAY); // 修改这里
+
+            MatOfRect eyes = new MatOfRect();
+            eyesCascade.detectMultiScale(gray, eyes);
+
+            Debug.Log("检测到眼睛的数量: " + eyes.toArray().Length);
+
+            foreach (OpenCVForUnity.CoreModule.Rect eye in eyes.toArray())
+            {
+                // 在这里，你可以获取到眼睛的位置
+                Debug.Log("检测到眼睛，位置：" + eye.x + ", " + eye.y);
+
+                // 更新滑动窗口的累积和
+                Vector2 newEyePos = new Vector2(eye.x, eye.y);
+                windowSum = windowSum - window[windowIndex] + newEyePos;
+
+                // 将新的眼睛位置添加到滑动窗口
+                window[windowIndex] = newEyePos;
+                windowIndex = (windowIndex + 1) % WindowSize;
+
+                // 计算滑动窗口中眼睛位置的平均值
+                Vector2 averageEyePos = windowSum / WindowSize;
+
+                // 打印平均眼睛位置
+                Debug.Log("平均眼睛位置：" + averageEyePos);
+
+                // 将平均的眼睛位置添加到数组中
+                lock (eyePositions)  // 确保线程安全
+                {
+                    eyePositions[currentIndex] = averageEyePos;
+                    currentIndex = (currentIndex + 1) % ArraySize;
+                }
+            }
+        }
     }
 }
