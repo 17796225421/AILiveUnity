@@ -14,7 +14,7 @@ public class EyeDetection : MonoBehaviour
     public WebCamTexture webCamTexture;
     public CascadeClassifier eyesCascade;
     private const int ArraySize = 1000;  // 定义数组大小为常量
-    private const int WindowSize = 100;  // 滑动窗口的大小
+    private const int WindowSize = 10;  // 滑动窗口的大小
 
     public Vector2[] eyePositions = new Vector2[ArraySize];  // 存储眼睛位置的数组
     public int currentIndex = 0;  // 当前的索引，需要线程安全
@@ -38,10 +38,8 @@ public class EyeDetection : MonoBehaviour
             }
         }
         Debug.Log("前置摄像头名称: " + frontCamName);
-        // 设置摄像头的分辨率
-        int width = 200;  // 你可以根据需要设置这个值
-        int height = 480;  // 你可以根据需要设置这个值
-        webCamTexture = new WebCamTexture(frontCamName, width, height);
+
+        webCamTexture = new WebCamTexture(frontCamName, 4 * 75, 3 * 75);
         webCamTexture.Play();
 
         eyesCascade = new CascadeClassifier();
@@ -88,8 +86,8 @@ public class EyeDetection : MonoBehaviour
             Utils.webCamTextureToMat(webCamTexture, frame);
             frameQueue.Enqueue(frame);  // 将图像数据添加到队列中
 
-            // 等待1秒
-            yield return new WaitForSeconds(0.1f);
+            // 等待x秒
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -100,12 +98,15 @@ public class EyeDetection : MonoBehaviour
             // 从队列中取出图像数据
             if (!frameQueue.TryDequeue(out Mat frame))
             {
-                Thread.Sleep(10);
+                Thread.Sleep(100);
                 continue;
             }
 
             // 旋转图像
             Core.rotate(frame, frame, Core.ROTATE_90_COUNTERCLOCKWISE);
+            
+            // 镜面反转图像
+            Core.flip(frame, frame, 1);  // 1 表示沿着垂直轴反转
 
             Mat gray = new Mat();
             Imgproc.cvtColor(frame, gray, Imgproc.COLOR_RGBA2GRAY); // 修改这里
@@ -120,8 +121,18 @@ public class EyeDetection : MonoBehaviour
                 // 在这里，你可以获取到眼睛的位置
                 Debug.Log("检测到眼睛，位置：" + eye.x + ", " + eye.y);
 
+                // 将眼睛的位置转换为以图像中心为原点的坐标
+                int centerX = frame.width() / 2;
+                int centerY = frame.height() / 2;
+                int eyeCenterX = eye.x + eye.width / 2;
+                int eyeCenterY = eye.y + eye.height / 2;
+                int eyeX = eyeCenterX - centerX;
+                int eyeY = centerY - eyeCenterY;  // 注意这里取了反
+
+                Debug.Log("转换后的眼睛位置：" + eyeX + ", " + eyeY);
+
                 // 更新滑动窗口的累积和
-                Vector2 newEyePos = new Vector2(eye.x, eye.y);
+                Vector2 newEyePos = new Vector2(eyeX, eyeY);
                 windowSum = windowSum - window[windowIndex] + newEyePos;
 
                 // 将新的眼睛位置添加到滑动窗口
