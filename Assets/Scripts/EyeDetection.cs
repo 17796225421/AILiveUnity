@@ -13,11 +13,12 @@ public class EyeDetection : MonoBehaviour
 {
     public WebCamTexture webCamTexture;
     public CascadeClassifier eyesCascade;
-    private const int ArraySize = 1000;  // 定义数组大小为常量
+    public const int ArraySize = 1000;  // 定义数组大小为常量
     private const int WindowSize = 10;  // 滑动窗口的大小
 
     public Vector2[] eyePositions = new Vector2[ArraySize];  // 存储眼睛位置的数组
     public int currentIndex = 0;  // 当前的索引，需要线程安全
+    public object currentIndexLock = new object();  // 用于保护currentIndex的锁
 
     private Vector2[] window = new Vector2[WindowSize];  // 滑动窗口
     private int windowIndex = 0;  // 滑动窗口的索引
@@ -146,7 +147,7 @@ public class EyeDetection : MonoBehaviour
                 Debug.Log("平均眼睛位置：" + averageEyePos);
 
                 // 将平均的眼睛位置添加到数组中
-                lock (eyePositions)  // 确保线程安全
+                lock (currentIndexLock)  // 确保线程安全
                 {
                     eyePositions[currentIndex] = averageEyePos;
                     currentIndex = (currentIndex + 1) % ArraySize;
