@@ -615,7 +615,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 1
+  near clip plane: 0.5
   far clip plane: 3
   field of view: 50
   orthographic: 0
@@ -2666,7 +2666,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eyeDetection: {fileID: 1418225050}
   faceTransform: {fileID: 1677607}
-  slerpSpeed: 1
+  moveSpeed: 0.1
+  randomRange: 0.1
 --- !u!1 &1472482532
 GameObject:
   m_ObjectHideFlags: 0
