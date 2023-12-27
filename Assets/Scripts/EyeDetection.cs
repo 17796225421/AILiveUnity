@@ -88,7 +88,7 @@ public class EyeDetection : MonoBehaviour
             frameQueue.Enqueue(frame);  // 将图像数据添加到队列中
 
             // 等待x秒
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -99,7 +99,7 @@ public class EyeDetection : MonoBehaviour
             // 从队列中取出图像数据
             if (!frameQueue.TryDequeue(out Mat frame))
             {
-                Thread.Sleep(100);
+                Thread.Sleep(50);
                 continue;
             }
 
@@ -123,13 +123,15 @@ public class EyeDetection : MonoBehaviour
                 Debug.Log("检测到眼睛，位置：" + eye.x + ", " + eye.y);
 
                 // 将眼睛的位置转换为以图像中心为原点的坐标
-                int centerX = frame.width() / 2;
-                int centerY = frame.height() / 2;
-                int eyeCenterX = eye.x + eye.width / 2;
-                int eyeCenterY = eye.y + eye.height / 2;
-                int eyeX = eyeCenterX - centerX;
-                int eyeY = centerY - eyeCenterY;  // 注意这里取了反
+                float centerX = frame.width() / 2;
+                float centerY = frame.height() / 2;
+                float eyeCenterX = eye.x + eye.width / 2;
+                float eyeCenterY = eye.y + eye.height / 2;
+                float eyeX = centerX - eyeCenterX;
+                float eyeY = centerY - eyeCenterY;  // 注意这里取了反
 
+                eyeX *= 10;
+                eyeY *= 10;
                 Debug.Log("转换后的眼睛位置：" + eyeX + ", " + eyeY);
 
                 // 更新滑动窗口的累积和
