@@ -63,7 +63,9 @@
     <Compile Include="Assets\Script\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayeridlingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Moving\PlayerRunningState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Utilities\Input\PlayerInput.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Moving\PlayerSprintingState.cs" />
+    <Compile Include="Assets\InputActions\Characters\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\Script\Characters\Player\Player.cs" />
     <Compile Include="Assets\Script\StateMachine\IState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\PlayerMovementState.cs" />
