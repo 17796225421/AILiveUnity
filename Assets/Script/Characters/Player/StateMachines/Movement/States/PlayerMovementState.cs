@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.WSA;
 
 namespace AILive
@@ -19,6 +20,8 @@ namespace AILive
         protected Vector3 dampedTargetRotationCurrentVelocity;
         protected Vector3 dampedTargetRotationPassedTime;
 
+        protected bool shouldWalk;
+
         public PlayerMovementState(PlayerMovementStateMachine playerMovementStateMachine) 
         {
             stateMachine = playerMovementStateMachine;
@@ -35,10 +38,13 @@ namespace AILive
         public virtual void Enter()
         {
             Debug.Log("State: " + GetType().Name);
+
+            AddInputActionsCallbacks();
         }
 
         public virtual void Exit()
         {
+            RemoveInputActionsCallbacks();
         }
 
         public virtual void HandleInput()
@@ -178,7 +184,27 @@ namespace AILive
         {
             return Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
+
+        protected void ResetVelocity()
+        {
+            stateMachine.Player.Rigidbody.velocity = Vector3.zero;
+        }
+        protected virtual void AddInputActionsCallbacks()
+        {
+            stateMachine.Player.Input.PlayerActions.WalkToggle.started += OnWalkToggleStarted;
+        }
+
+        protected virtual void RemoveInputActionsCallbacks()
+        {
+            stateMachine.Player.Input.PlayerActions.WalkToggle.started -= OnWalkToggleStarted;
+        }
         #endregion
 
+        #region Input Methods
+        protected virtual void OnWalkToggleStarted(InputAction.CallbackContext context)
+        {
+            shouldWalk = !shouldWalk;
+        }
+        #endregion
     }
 }

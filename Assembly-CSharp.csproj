@@ -71,6 +71,7 @@
     <Compile Include="Assets\Script\StateMachine\IState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\PlayerMovementState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Moving\PlayerWalkingState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerGroundedState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\PlayerMovementStateMachine.cs" />
   </ItemGroup>
   <ItemGroup>
