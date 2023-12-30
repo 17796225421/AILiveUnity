@@ -76,10 +76,12 @@
     <Compile Include="Assets\Script\Camera\CameraZoom.cs" />
     <Compile Include="Assets\Script\Characters\Player\Player.cs" />
     <Compile Include="Assets\Script\Data\Colliders\SlopData.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\PlayerDashData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\ScriptableObjects\PlayerSO.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerIdlingState.cs" />
     <Compile Include="Assets\Script\StateMachine\IState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\PlayerMovementState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerDashingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Moving\PlayerWalkingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerGroundedState.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Moving\PlayerRunData.cs" />

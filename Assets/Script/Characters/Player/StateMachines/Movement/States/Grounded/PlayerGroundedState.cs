@@ -69,6 +69,8 @@ namespace AILive
             base.AddInputActionsCallbacks();
 
             stateMachine.Player.Input.PlayerActions.Movement.canceled += OnMovementCanceled;
+
+            stateMachine.Player.Input.PlayerActions.Dash.started += OnDashStarted;
         }
 
         protected override void RemoveInputActionsCallbacks()
@@ -76,6 +78,8 @@ namespace AILive
             base.RemoveInputActionsCallbacks();
 
             stateMachine.Player.Input.PlayerActions.Movement.canceled -= OnMovementCanceled;
+
+            stateMachine.Player.Input.PlayerActions.Dash.started -= OnDashStarted;
         }
         protected virtual void OnMove()
         {
@@ -100,6 +104,10 @@ namespace AILive
         protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
         {
             stateMachine.ChangeState(stateMachine.IdlingState);
+        }
+        protected virtual void OnDashStarted(InputAction.CallbackContext context)
+        {
+            stateMachine.ChangeState(stateMachine.DashingState);
         }
         #endregion
     }
