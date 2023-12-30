@@ -46,5 +46,6 @@ namespace AILive
             }
         }
 
+        public PlayerRotationData RotationData { get; set; }
     }
 }

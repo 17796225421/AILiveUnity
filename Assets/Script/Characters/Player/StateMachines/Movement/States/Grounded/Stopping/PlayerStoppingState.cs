@@ -24,6 +24,8 @@ namespace AILive
         {
             base.PhysicsUpdate();
 
+            RotateTowardsTargetRotation();
+
             if (!IsMovingHorizontally())
             {
                 return;

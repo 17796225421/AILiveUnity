@@ -25,7 +25,7 @@ namespace AILive
 
         private void InitializeData()
         {
-            stateMachine.ReusableData.TimeToReachTargetRotation =movementData.BaseRotationData.TargetRotationReachTime;
+            SetBaseRotationData();
         }
 
         #region IState Methods
@@ -135,7 +135,12 @@ namespace AILive
 
         #endregion
 
-        #region Reusable Methods
+        #region Reusable 
+        protected void SetBaseRotationData()
+        {
+            stateMachine.ReusableData.RotationData = movementData.BaseRotationData;
+            stateMachine.ReusableData.TimeToReachTargetRotation = stateMachine.ReusableData.RotationData.TargetRotationReachTime;
+        }
         protected Vector3 GetMovementInputDirection()
         {
             return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
@@ -156,7 +161,7 @@ namespace AILive
         {
             return new Vector3(0f,stateMachine.Player.Rigidbody.velocity.y, 0f);
         }
-        private void RotateTowardsTargetRotation()
+        protected void RotateTowardsTargetRotation()
         {
             float currentYAngle = stateMachine.Player.Rigidbody.rotation.eulerAngles.y;
 
