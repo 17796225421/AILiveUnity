@@ -207,6 +207,21 @@ namespace AILive
         {
             stateMachine.Player.Input.PlayerActions.WalkToggle.started -= OnWalkToggleStarted;
         }
+
+        protected void DecelerateHorizontally()
+        {
+            Vector3 playerHorizontalVelocity=GetPlayerHorizontalVelocity();
+
+            stateMachine.Player.Rigidbody.AddForce(-playerHorizontalVelocity*stateMachine.ReusableData.MovementDecelerationForce,ForceMode.Acceleration);
+        }
+        protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)
+        {
+            Vector3 playerHorizontalVelocity=GetPlayerHorizontalVelocity();
+
+            Vector2 PlayerHorizontalMovement=new Vector2(playerHorizontalVelocity.x, playerHorizontalVelocity.z);
+
+            return PlayerHorizontalMovement.magnitude>minimumMagnitude; 
+        }
         #endregion
 
         #region Input Methods
