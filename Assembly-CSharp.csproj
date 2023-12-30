@@ -85,6 +85,7 @@
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Moving\PlayerWalkingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerGroundedState.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Moving\PlayerRunData.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Moving\PlayerSprintData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\Layers\PlayerLayerData.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\PlayerMovementStateMachine.cs" />
   </ItemGroup>
