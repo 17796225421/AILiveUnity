@@ -232,6 +232,12 @@ namespace AILive
 
             stateMachine.Player.Rigidbody.AddForce(-playerHorizontalVelocity*stateMachine.ReusableData.MovementDecelerationForce,ForceMode.Acceleration);
         }
+        protected void DecelerateVertically()
+        {
+            Vector3 playerVerticalVelocity = GetPlayerVerticalVelocity();
+
+            stateMachine.Player.Rigidbody.AddForce(-playerVerticalVelocity * stateMachine.ReusableData.MovementDecelerationForce, ForceMode.Acceleration);
+        }
         protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)
         {
             Vector3 playerHorizontalVelocity=GetPlayerHorizontalVelocity();
@@ -239,6 +245,15 @@ namespace AILive
             Vector2 PlayerHorizontalMovement=new Vector2(playerHorizontalVelocity.x, playerHorizontalVelocity.z);
 
             return PlayerHorizontalMovement.magnitude>minimumMagnitude;
+        }
+
+        protected bool IsMovingUp(float minimumVelocity = 0.1f)
+        {
+            return GetPlayerHorizontalVelocity().y > minimumVelocity;
+        }
+        protected bool IsMovingDown(float minimumVelocity = 0.1f)
+        {
+            return GetPlayerHorizontalVelocity().y < -minimumVelocity;
         }
         protected virtual void OnContactWithGround(Collider collider)
         {
