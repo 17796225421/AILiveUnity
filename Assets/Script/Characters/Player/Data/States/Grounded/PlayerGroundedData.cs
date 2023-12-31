@@ -18,5 +18,6 @@ namespace AILive
         [field:SerializeField]public PlayerSprintData SprintData { get; private set; }
         [field:SerializeField]public PlayerDashData DashData { get; private set; }
         [field:SerializeField]public PlayerStopData StopData { get; private set; }
+        [field:SerializeField]public PlayerRollData RollData { get; private set; }
     }
 }
