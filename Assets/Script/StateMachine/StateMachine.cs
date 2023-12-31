@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace AILive
 {
     public abstract class StateMachine
@@ -37,6 +39,11 @@ namespace AILive
         public void OnAnimationTransitionEvent()
         {
             currentState?.OnAnimationTransitionEvent();
+        }
+
+        public void OnTriggerEnter(Collider collider)
+        {
+            currentState.OnTriggerEnter(collider);
         }
     }
 }

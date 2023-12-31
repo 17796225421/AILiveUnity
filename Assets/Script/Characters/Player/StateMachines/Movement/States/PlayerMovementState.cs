@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.WSA;
@@ -65,6 +66,16 @@ namespace AILive
 
         public virtual void OnAnimationTransitionEvent()
         {
+        }
+
+        public virtual void OnTriggerEnter(Collider collider)
+        {
+            if(stateMachine.Player.LayerData.IsGroundLayer(collider.gameObject.layer))
+            {
+                OnContactWithGround(collider);
+
+                return;
+            }
         }
 
         #endregion
@@ -227,7 +238,10 @@ namespace AILive
 
             Vector2 PlayerHorizontalMovement=new Vector2(playerHorizontalVelocity.x, playerHorizontalVelocity.z);
 
-            return PlayerHorizontalMovement.magnitude>minimumMagnitude; 
+            return PlayerHorizontalMovement.magnitude>minimumMagnitude;
+        }
+        protected virtual void OnContactWithGround(Collider collider)
+        {
         }
         #endregion
 
@@ -236,6 +250,7 @@ namespace AILive
         {
             stateMachine.ReusableData.ShouldWalk = !stateMachine.ReusableData.ShouldWalk;
         }
+
         #endregion
     }
 }
