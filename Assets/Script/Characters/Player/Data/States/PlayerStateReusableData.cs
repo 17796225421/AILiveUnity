@@ -46,6 +46,8 @@ namespace AILive
             }
         }
 
+        public Vector3 CurrentJumpForce {  get; set; }
+
         public PlayerRotationData RotationData { get; set; }
     }
 }

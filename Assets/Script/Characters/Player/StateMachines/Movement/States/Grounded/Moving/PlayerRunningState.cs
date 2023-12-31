@@ -22,6 +22,8 @@ namespace AILive
 
             stateMachine.ReusableData.MovementSpeedModifier = movementData.RunData.SpeedModifier;
 
+            stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.MediumForce;
+
             startTime = Time.time;
         }
 

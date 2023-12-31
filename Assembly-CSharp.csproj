@@ -64,6 +64,7 @@
     <Compile Include="Assets\Script\StateMachine\StateMachine.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Moving\PlayerWalkData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\PlayerStateReusableData.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Data\States\Airborne\PlayerAirborneData.cs" />
     <Compile Include="Assets\Script\Data\Colliders\CapsuleColliderData.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Stopping\PlayerHardStoppingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Stopping\PlayerStoppingState.cs" />
@@ -82,13 +83,16 @@
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\PlayerDashData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\ScriptableObjects\PlayerSO.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerIdlingState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Airborne\PlayerAirborneState.cs" />
     <Compile Include="Assets\Script\StateMachine\IState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\PlayerMovementState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Airborne\PlayerJumpingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Stopping\PlayerStopData.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerDashingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Stopping\PlayerMediumStoppingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Moving\PlayerWalkingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerGroundedState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Data\States\Airborne\PlayerJumpData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Moving\PlayerRunData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Moving\PlayerSprintData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\Layers\PlayerLayerData.cs" />
