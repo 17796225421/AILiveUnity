@@ -86,6 +86,8 @@ namespace AILive
 
             if (shouldKeepRotating)
             {
+                UpdateTargetRotation(GetMovementInputDirection());
+
                 jumpDirection = GetTargetRotationDirection(stateMachine.ReusableData.CurrentTargetRotation.y);
             }
 
