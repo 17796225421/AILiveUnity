@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,19 +9,31 @@ namespace AILive
 {
     public class PlayerWalkingState : PlayerMovingState
     {
+
+        private PlayerWalkData walkData;
         public PlayerWalkingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
+            walkData = movementData.WalkData;
         }
 
         #region IState Methods
         public override void Enter()
         {
-            base.Enter();
+            stateMachine.ReusableData.MovementSpeedModifier = walkData.SpeedModifier;
 
-            stateMachine.ReusableData.MovementSpeedModifier = movementData.WalkData.SpeedModifier;
+            stateMachine.ReusableData.BackwardsCameraRecenteringData = walkData.BackwardsCameraRecenteringData;
+
+            base.Enter();
 
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.WeakForce ;
 
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            SetBaseCameraRecenteringData();
         }
         #endregion
 
@@ -28,6 +41,8 @@ namespace AILive
         protected override void OnMovementCanceled(InputAction.CallbackContext context)
         {
             stateMachine.ChangeState(stateMachine.LightStoppingState);
+
+            base.OnMovementCanceled(context);
         }
         protected override void OnWalkToggleStarted(InputAction.CallbackContext context)
         {

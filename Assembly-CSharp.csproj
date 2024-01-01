@@ -76,11 +76,13 @@
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Landing\PlayerRollData.cs" />
     <Compile Include="Assets\InputActions\Characters\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Stopping\PlayerLightStoppingState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\PlayerIdleData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\PlayerRotationData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\PlayerGroundedData.cs" />
     <Compile Include="Assets\Script\Data\Colliders\DefaultColliderData.cs" />
     <Compile Include="Assets\Script\Camera\CameraZoom.cs" />
     <Compile Include="Assets\Script\Characters\Player\Player.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Utilities\Cameras\PlayerCameraUtility.cs" />
     <Compile Include="Assets\Script\Data\Colliders\SlopData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\PlayerDashData.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Landing\PlayerLandingState.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Stopping\PlayerMediumStoppingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Moving\PlayerWalkingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\PlayerGroundedState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Data\Cameras\PlayerCameraRecenteringData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Airborne\PlayerJumpData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Moving\PlayerRunData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Utilities\Colliders\PlayerCapsuleColliderUtility.cs" />

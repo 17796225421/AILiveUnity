@@ -21,9 +21,9 @@ namespace AILive
         #region IState Methods
         public override void Enter()
         {
-            base.Enter();
-
             stateMachine.ReusableData.MovementSpeedModifier = dashData.SpeedModifier;
+
+            base.Enter();
 
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StrongForce;
             
@@ -125,10 +125,6 @@ namespace AILive
         #endregion
 
         #region Input Methods
-        protected override void OnMovementCanceled(InputAction.CallbackContext context)
-        {
-            base.OnMovementCanceled(context);
-        }
         private void OnMovementPerformed(InputAction.CallbackContext context)
         {
             shouldKeepRotating = true;

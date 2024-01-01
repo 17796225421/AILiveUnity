@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace AILive
 {
@@ -118,6 +119,12 @@ namespace AILive
             ResetVelocity();
 
             stateMachine.Player.Rigidbody.AddForce(jumpForce, ForceMode.VelocityChange) ;
+        }
+        #endregion
+
+        #region Input Methods
+        protected override void OnMovementCanceled(InputAction.CallbackContext context)
+        {
         }
         #endregion
     }
