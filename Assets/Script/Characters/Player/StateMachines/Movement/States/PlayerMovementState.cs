@@ -192,9 +192,15 @@ namespace AILive
         {
             return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
         }
-        protected float GetMovementSpeed()
+        protected float GetMovementSpeed(bool shouldConsiderSlops = true)
         {
-            return movementData.BaseSpeed * stateMachine.ReusableData.MovementSpeedModifier * stateMachine.ReusableData.MovementOnSlopesSpeedModifier;
+            float movementSpeed = movementData.BaseSpeed * stateMachine.ReusableData.MovementSpeedModifier;
+
+            if(shouldConsiderSlops)
+            {
+                movementSpeed *= stateMachine.ReusableData.MovementOnSlopesSpeedModifier;   
+            }
+            return movementSpeed;
         }
         protected Vector3 GetPlayerHorizontalVelocity()
         {
