@@ -1,4 +1,4 @@
-      using System;
+       using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -158,7 +158,15 @@ namespace AILive
 
         #endregion
 
-        #region Reusable 
+        #region Reusable Methods
+        protected void StartAnimation(int animationHash)
+        {
+            stateMachine.Player.Animator.SetBool(animationHash, true);
+        }
+        protected void StopAnimation(int animationHash)
+        {
+            stateMachine.Player.Animator.SetBool(animationHash, false);
+        }
         protected void SetBaseCameraRecenteringData()
         {
             stateMachine.ReusableData.BackwardsCameraRecenteringData = movementData.BackwardsCameraRecenteringData;

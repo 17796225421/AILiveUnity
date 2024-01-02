@@ -20,9 +20,18 @@ namespace AILive
         {
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.GroundedParameterHash);
+
             UpdateShouldSprintState();
 
             UpdateCameraRecenteringState(stateMachine.ReusableData.MovementInput);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            StopAnimation(stateMachine.Player.AnimationData.GroundedParameterHash);
         }
 
         public override void PhysicsUpdate()

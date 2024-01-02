@@ -25,6 +25,8 @@ namespace AILive
 
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.DashParameterHash);
+         
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StrongForce;
             
             stateMachine.ReusableData.RotationData=dashData.RotationData;
@@ -41,6 +43,8 @@ namespace AILive
         {
             base.Exit();
 
+            StopAnimation(stateMachine.Player.AnimationData.DashParameterHash);
+           
             SetBaseRotationData();
         }
 

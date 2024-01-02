@@ -73,12 +73,14 @@
     <Compile Include="Assets\Script\Utilities\Colliders\CapsuleColliderUtility.cs" />
     <Compile Include="Assets\Script\Characters\Player\Utilities\Input\PlayerInput.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Moving\PlayerSprintingState.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Utilities\Animations\PlayerAnimationEventTrigger.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\Landing\PlayerRollData.cs" />
     <Compile Include="Assets\InputActions\Characters\Player\PlayerInputActions.cs" />
     <Compile Include="Assets\Script\Characters\Player\StateMachines\Movement\States\Grounded\Stopping\PlayerLightStoppingState.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\PlayerIdleData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\PlayerRotationData.cs" />
     <Compile Include="Assets\Script\Characters\Player\Data\States\Grounded\PlayerGroundedData.cs" />
+    <Compile Include="Assets\Script\Characters\Player\Data\Animations\PlayerAnimationData.cs" />
     <Compile Include="Assets\Script\Data\Colliders\DefaultColliderData.cs" />
     <Compile Include="Assets\Script\Camera\CameraZoom.cs" />
     <Compile Include="Assets\Script\Characters\Player\Player.cs" />

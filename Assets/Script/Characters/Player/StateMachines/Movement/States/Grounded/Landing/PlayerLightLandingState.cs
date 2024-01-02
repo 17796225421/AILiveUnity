@@ -15,7 +15,7 @@ namespace AILive
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
             
             base.Enter();
-
+            
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StationaryForce;
 
             ResetVelocity();
